@@ -1,0 +1,6 @@
+testDevelopment/
+.history/
+node_modules/
+.DS_Store
+dist/
+__test__/coverage
