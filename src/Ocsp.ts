@@ -1,7 +1,8 @@
 import { asn1, pki, md, util } from 'node-forge'
-import x509Certificate from './x509Certificate'
+import { x509Certificate } from './x509Certificate'
 import fetch from 'node-fetch'
 import * as fs from 'fs'
+import { GlobalMethods } from './GlobalMethods'
 export enum OCSP_REQUEST_STATUS {
 	SUCCESSFUL = '00',
 	MALFORMEDREQUEST = '01',
@@ -17,16 +18,16 @@ export enum OCSP_CERTIFICATE_STATUS {
 	REVOKED = 1,
 	UNKNOW = 2
 }
-type ocspResponseVerify = {
+export type ocspResponseVerify = {
 	status: string
 }
 
-type certificateStatusVerify = {
+export type certificateStatusVerify = {
 	status: string
 	revocationTime?: Date
 }
 
-export default class Ocsp {
+export class Ocsp {
 	private issuerCertificate: x509Certificate
 	private subjectCertificate: x509Certificate
 	private ocspCertificate: x509Certificate
@@ -42,22 +43,14 @@ export default class Ocsp {
 		this.urlService = urlService
 	}
 
-	private hash(input: string, algorithm: string = 'sha256', returnForgeHashObject: boolean = false): string {
-		//@ts-ignore
-		var mdObj = md[algorithm].create()
-		mdObj.update(input)
-		if (returnForgeHashObject) {
-			return mdObj
-		}
-		return mdObj.digest().toHex()
-	}
+	
 	private getOCSPRequest(): util.ByteBuffer {
 		const issuerNameBinary = this.getIssuerNameBinary()
-		const hashIssuerNameBinary = this.hash(issuerNameBinary, 'sha1')
+		const hashIssuerNameBinary =  GlobalMethods.hash(issuerNameBinary, 'sha1')
 		const issuerNameHash = Buffer.from(hashIssuerNameBinary, 'hex').toString('binary')
 
 		const publicKeyFromANS1 = this.getASN1PublicKeyBinary()
-		const hashPublicKeyFromANS1 = this.hash(publicKeyFromANS1, 'sha1')
+		const hashPublicKeyFromANS1 = GlobalMethods.hash(publicKeyFromANS1, 'sha1')
 		const issuerKeyHash = Buffer.from(hashPublicKeyFromANS1, 'hex').toString('binary')
 
 		const serialNumber = Buffer.from(this.subjectCertificate.serialNumber, 'hex').toString('binary')

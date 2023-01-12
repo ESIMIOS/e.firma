@@ -1,9 +1,9 @@
-import privateKey from '../src/PrivateKey'
+import { PrivateKey } from '../src/PrivateKey'
 import * as fs from 'fs'
-const readFile = (fileDir) => {
+const readFile = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
-	const certiticate = new privateKey(file)
+	const certiticate = new PrivateKey(file)
 	return certiticate
 }
 describe('privateKey Test', () => {
@@ -11,7 +11,7 @@ describe('privateKey Test', () => {
 		const pathInvalidCertificate = `${__dirname}/__data_test__/invalid.der`
 		const file = fs.readFileSync(pathInvalidCertificate, 'binary')
 		try {
-			new privateKey(file)
+			new PrivateKey(file)
 		} catch (err) {
 			console.log(err)
 			expect(err).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
@@ -22,7 +22,7 @@ describe('privateKey Test', () => {
 		const pathInvalidCertificate = `${__dirname}/__data_test__/goodPrivateKeyDecrypt.key`
 		const file = fs.readFileSync(pathInvalidCertificate, 'binary')
 		try {
-			new privateKey(file)
+			new PrivateKey(file)
 		} catch (err) {
 			console.log(err)
 			expect(err.indexOf('Llave privada no válida ') <= 0).toBe(true)

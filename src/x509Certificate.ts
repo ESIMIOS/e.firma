@@ -1,6 +1,7 @@
-import { asn1, pki, md } from 'node-forge'
+import { asn1, pki } from 'node-forge'
+import { GlobalMethods } from './GlobalMethods'
 
-export default class x509Certificate {
+export class x509Certificate {
 	ans1Object: asn1.Asn1
 	certificate: pki.Certificate
 	certificateType: string
@@ -8,7 +9,7 @@ export default class x509Certificate {
 	acVersion: number
 	valid: boolean
 	constructor(x509Binary: string) {
-		this.ans1Object = this.readANS1(x509Binary)
+		this.ans1Object = GlobalMethods.readASN1(x509Binary)
 		const certificate = this.certificateFromAns1(this.ans1Object)
 		this.serialNumber = certificate.serialNumber
 		this.acVersion = Number(this.serialNumber[23])
@@ -19,26 +20,6 @@ export default class x509Certificate {
 			this.valid = true
 		} else {
 			this.valid = false
-		}
-
-	}
-
-	private hash(input: string, algorithm: string = 'sha256', returnForgeHashObject: boolean = false) {
-		// @ts-ignore
-		var mdObj = md[algorithm].create()
-		mdObj.update(input)
-		if (returnForgeHashObject) {
-			return mdObj
-		}
-		return mdObj.digest().toHex()
-	}
-
-	private readANS1(file: string) {
-		try {
-			const ans1Object = asn1.fromDer(file)
-			return ans1Object
-		} catch (err) {
-			throw 'Verifique el archivo, no fue posible decodificar el ANS1'
 		}
 	}
 
@@ -65,7 +46,7 @@ export default class x509Certificate {
 	}
 
 	verifyIntegrity(x509IssuerBinary: string) {
-		const issuerCertificate = this.readANS1(x509IssuerBinary)
+		const issuerCertificate = GlobalMethods.readASN1(x509IssuerBinary)
 		const certificate = this.certificateFromAns1(issuerCertificate)
 		try {
 			const isValid = certificate.verify(this.certificate)
@@ -85,7 +66,7 @@ export default class x509Certificate {
 	}
 
 	rsaVerifySignature(message: string, signature: string, algorithm: string = 'sha256'): boolean {
-		const messageHash = this.hash(message, algorithm, true)
+		const messageHash = GlobalMethods.hash(message, algorithm, true)
 		const messageDigest = messageHash.digest().bytes()
 		// @ts-ignore
 		const verified = this.certificate.publicKey['verify'](messageDigest, signature)

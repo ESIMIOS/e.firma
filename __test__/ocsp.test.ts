@@ -1,13 +1,13 @@
-import Ocsp from '../src/Ocsp'
+import { Ocsp } from '../src/Ocsp'
 import { asn1 } from 'node-forge'
-import x509Certificate from '../src/x509Certificate'
+import { x509Certificate } from '../src/x509Certificate'
 import * as fs from 'fs'
-const readFile = (fileDir) => {
+const readFile = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
 	return file
 }
-const readCertificate = (fileDir) => {
+const readCertificate = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
 	const certiticate = new x509Certificate(file)
@@ -54,6 +54,7 @@ describe('OCSP Test', () => {
 		const ocsp = new Ocsp('https://cfdi.sat.gob.mx/edo', issuer5Certificate, subjectCertiticate, ocspCertificate4)
 		const ocspRevokedResponseFile = fs.readFileSync(`${__dirname}/__data_test__/revoked.der`, 'binary')
 		const ocspRevokedResponse = asn1.fromDer(ocspRevokedResponseFile)
+		//@ts-ignore
 		const asn1OCSPBasic = asn1.fromDer(ocspRevokedResponse.value[1]['value'][0].value[1].value)
 		const response = ocsp.verifyCertificateStatus(asn1OCSPBasic)
 		expect(response).toEqual({ status: 'REVOKED', revocationTime: new Date('2022-11-01T04:17:03.000Z') })

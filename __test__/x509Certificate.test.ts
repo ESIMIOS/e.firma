@@ -1,7 +1,7 @@
-import x509Certificate from '../src/x509Certificate'
-import PrivateKey from '../src/PrivateKey'
+import { x509Certificate } from '../src/x509Certificate'
+import { PrivateKey } from '../src/PrivateKey'
 import * as fs from 'fs'
-const readCertificate = (fileDir) => {
+const readCertificate = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
 	const certiticate = new x509Certificate(file)
