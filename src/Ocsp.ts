@@ -1,7 +1,6 @@
 import { asn1, pki, md, util } from 'node-forge'
 import { x509Certificate } from './x509Certificate'
 import fetch from 'node-fetch'
-import * as fs from 'fs'
 import { GlobalMethods } from './GlobalMethods'
 export enum OCSP_REQUEST_STATUS {
 	SUCCESSFUL = '00',

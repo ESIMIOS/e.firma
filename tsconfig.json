@@ -10,7 +10,10 @@
 		"target": "es5",
 		"jsx": "react",
 		"allowJs": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"declarationMap": true,
 		"typeRoots": ["./node_modules/@types"]
 	},
-	"include": ["./src/**/*"]
+	"include": ["./src/**/*", "./index.ts"]
 }
