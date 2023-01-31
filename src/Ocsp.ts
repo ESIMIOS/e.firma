@@ -42,10 +42,9 @@ export class Ocsp {
 		this.urlService = urlService
 	}
 
-	
 	private getOCSPRequest(): util.ByteBuffer {
 		const issuerNameBinary = this.getIssuerNameBinary()
-		const hashIssuerNameBinary =  GlobalMethods.hash(issuerNameBinary, 'sha1')
+		const hashIssuerNameBinary = GlobalMethods.hash(issuerNameBinary, 'sha1')
 		const issuerNameHash = Buffer.from(hashIssuerNameBinary, 'hex').toString('binary')
 
 		const publicKeyFromANS1 = this.getASN1PublicKeyBinary()
@@ -168,9 +167,12 @@ export class Ocsp {
 				const verify = this.verifyOcspResponseSignature(asn1OCSPBasic)
 				if (verify) {
 					const certificateStatus = this.verifyCertificateStatus(asn1OCSPBasic)
-					return certificateStatus
+					return {
+						...certificateStatus,
+						ocspRequest
+					}
 				} else {
-					throw 'La firma de la respuesta OCSP no corresponde '
+					throw 'La firma de la respuesta OCSP no corresponde'
 				}
 			} else {
 				throw 'No fue posible realizar la validación OCSP \n' + ocspResponseStatus

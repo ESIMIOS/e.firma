@@ -29,7 +29,8 @@ describe('OCSP Test', () => {
 	test('verify OCSP', async () => {
 		const ocsp = new Ocsp('https://cfdi.sat.gob.mx/edofiel', issuer5Certificate, subjectCertiticate, ocspCertificate5)
 		const response = await ocsp.verify()
-		expect(response).toEqual({ status: 'GOOD' })
+		console.log('response', response)
+		expect(response).toHaveProperty('status', 'GOOD')
 	})
 
 	test('invalid signature', async () => {
