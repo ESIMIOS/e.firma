@@ -8,6 +8,8 @@ export class x509Certificate {
 	serialNumber: string
 	acVersion: number
 	valid: boolean
+	sha256: string
+	
 	constructor(x509Binary: string) {
 		this.ans1Object = GlobalMethods.readASN1(x509Binary)
 		const certificate = this.certificateFromAns1(this.ans1Object)
@@ -15,6 +17,7 @@ export class x509Certificate {
 		this.acVersion = Number(this.serialNumber[23])
 		this.certificate = certificate
 		this.certificateType = this.getCertiticateType()
+		this.sha256 = GlobalMethods.hash(x509Binary, 'sha256')
 		const now = new Date()
 		if (now < certificate.validity.notAfter && now > certificate.validity.notBefore) {
 			this.valid = true
