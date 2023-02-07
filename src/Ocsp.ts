@@ -21,9 +21,14 @@ export type ocspResponseVerify = {
 	status: string
 }
 
-export type certificateStatusVerify = {
+export interface certificateStatusVerify {
 	status: string
 	revocationTime?: Date
+}
+
+export interface verifyResponse extends ocspResponseVerify {
+	ocspRequestBinary?: string
+	ocspResponseBinary?: string
 }
 
 export class Ocsp {
@@ -152,33 +157,30 @@ export class Ocsp {
 		}
 	}
 
-	async verify(): Promise<Object> {
-		try {
-			const ocspRequest = this.getOCSPRequest()
-			const originalData = Buffer.from(ocspRequest.getBytes(), 'binary')
-			const ocspResponseBlob = await this.callToService(originalData)
-			const arrayBuffer = await ocspResponseBlob.arrayBuffer()
-			const ocspResponseBinary = Buffer.from(arrayBuffer).toString('binary')
-			const asn1OcspResponse = asn1.fromDer(ocspResponseBinary)
-			const ocspResponseStatus = this.verifyOcspResponse(asn1OcspResponse)
-			if (ocspResponseStatus.status === OCSP_REQUEST_STATUS.SUCCESSFUL) {
-				//@ts-ignore
-				const asn1OCSPBasic = asn1.fromDer(asn1OcspResponse.value[1]['value'][0].value[1].value)
-				const verify = this.verifyOcspResponseSignature(asn1OCSPBasic)
-				if (verify) {
-					const certificateStatus = this.verifyCertificateStatus(asn1OCSPBasic)
-					return {
-						...certificateStatus,
-						ocspRequest
-					}
-				} else {
-					throw 'La firma de la respuesta OCSP no corresponde'
+	async verify(): Promise<verifyResponse> {
+		const ocspRequest = this.getOCSPRequest()
+		const originalData = Buffer.from(ocspRequest.getBytes(), 'binary')
+		const ocspResponseBlob = await this.callToService(originalData)
+		const arrayBuffer = await ocspResponseBlob.arrayBuffer()
+		const ocspResponseBinary = Buffer.from(arrayBuffer).toString('binary')
+		const asn1OcspResponse = asn1.fromDer(ocspResponseBinary)
+		const ocspResponseStatus = this.verifyOcspResponse(asn1OcspResponse)
+		if (ocspResponseStatus.status === OCSP_REQUEST_STATUS.SUCCESSFUL) {
+			//@ts-ignore
+			const asn1OCSPBasic = asn1.fromDer(asn1OcspResponse.value[1]['value'][0].value[1].value)
+			const verify = this.verifyOcspResponseSignature(asn1OCSPBasic)
+			if (verify) {
+				const certificateStatus = this.verifyCertificateStatus(asn1OCSPBasic)
+				return {
+					...certificateStatus,
+					ocspRequestBinary: originalData.toString('binary'),
+					ocspResponseBinary
 				}
 			} else {
-				throw 'No fue posible realizar la validación OCSP \n' + ocspResponseStatus
+				throw 'La firma de la respuesta OCSP no corresponde'
 			}
-		} catch (err) {
-			throw err
+		} else {
+			throw 'No fue posible realizar la validación OCSP \n' + ocspResponseStatus
 		}
 	}
 

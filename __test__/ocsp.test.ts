@@ -31,6 +31,8 @@ describe('OCSP Test', () => {
 		const response = await ocsp.verify()
 		console.log('response', response)
 		expect(response).toHaveProperty('status', 'GOOD')
+		expect.stringContaining(response.ocspRequestBinary)
+		expect.stringContaining(response.ocspResponseBinary)
 	})
 
 	test('invalid signature', async () => {
