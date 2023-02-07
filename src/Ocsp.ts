@@ -21,8 +21,7 @@ export type ocspResponseVerify = {
 	status: string
 }
 
-export interface certificateStatusVerify {
-	status: string
+export interface certificateStatusVerify extends ocspResponseVerify {
 	revocationTime?: Date
 }
 

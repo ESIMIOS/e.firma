@@ -27,7 +27,7 @@ export class x509Certificate {
 	}
 
 	getBinary() {
-		return this.ans1Object.toDer().getBytes()
+		return asn1.toDer(this.ans1Object).getBytes()
 	}
 
 	private certificateFromAns1(ans1Object: asn1.Asn1) {
