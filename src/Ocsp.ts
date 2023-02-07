@@ -26,7 +26,7 @@ export interface certificateStatusVerify {
 	revocationTime?: Date
 }
 
-export interface verifyResponse extends ocspResponseVerify {
+export interface verifyResponse extends certificateStatusVerify {
 	ocspRequestBinary?: string
 	ocspResponseBinary?: string
 }
