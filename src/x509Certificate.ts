@@ -9,7 +9,7 @@ export class x509Certificate {
 	acVersion: number
 	valid: boolean
 	sha256: string
-	
+
 	constructor(x509Binary: string) {
 		this.ans1Object = GlobalMethods.readASN1(x509Binary)
 		const certificate = this.certificateFromAns1(this.ans1Object)
@@ -24,6 +24,10 @@ export class x509Certificate {
 		} else {
 			this.valid = false
 		}
+	}
+
+	getBinary() {
+		return this.ans1Object.toDer().getBytes()
 	}
 
 	private certificateFromAns1(ans1Object: asn1.Asn1) {
