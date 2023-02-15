@@ -59,8 +59,10 @@ export class x509Certificate {
 			const isValid = certificate.verify(this.certificate)
 			return isValid
 		} catch (err) {
-			if (err.message.toString().indexOf('The parent certificate did not issue') >= 0) {
-				throw 'El certificado del issuer recibido no es el de este certificado'
+			if (err instanceof Error) {
+				if (err.message.toString().indexOf('The parent certificate did not issue') >= 0) {
+					throw 'El certificado del issuer recibido no es el de este certificado'
+				}
 			}
 			throw err
 		}

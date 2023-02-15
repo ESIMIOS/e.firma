@@ -22,7 +22,7 @@ describe('OCSP Test', () => {
 		try {
 			const ocsp = new Ocsp('cfdi.sat.gob.mx/edofi', issuer5Certificate, subjectCertiticate, ocspCertificate4)
 		} catch (err) {
-			expect(err).toBe('Revisar la url del servicio OCSP, el formato no es de URL')
+			expect(err.message).toBe('Revisar la url del servicio OCSP, el formato no es de URL')
 		}
 	})
 
@@ -40,7 +40,7 @@ describe('OCSP Test', () => {
 			const ocsp = new Ocsp('https://cfdi.sat.gob.mx/edofiel', issuer5Certificate, subjectCertiticate, ocspCertificate4)
 			await ocsp.verify()
 		} catch (err) {
-			expect(err.indexOf('La firma de la respuesta OCSP no corresponde') >= 0).toBe(true)
+			expect(err.message.indexOf('La firma de la respuesta OCSP no corresponde') >= 0).toBe(true)
 		}
 	})
 
@@ -49,7 +49,7 @@ describe('OCSP Test', () => {
 			const ocsp = new Ocsp('https://cfdi.sat.gob.mx/edo', issuer5Certificate, subjectCertiticate, ocspCertificate4)
 			await ocsp.verify()
 		} catch (err) {
-			expect(err.indexOf('Error al consultar el servicio') >= 0).toBe(true)
+			expect(err.message.indexOf('Error al consultar el servicio') >= 0).toBe(true)
 		}
 	})
 

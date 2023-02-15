@@ -14,7 +14,7 @@ describe('x509Certificate Test', () => {
 		try {
 			new x509Certificate(file)
 		} catch (err) {
-			expect(err).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
+			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
 		}
 	})
 	test('CSD certificate', () => {

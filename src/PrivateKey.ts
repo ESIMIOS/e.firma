@@ -1,5 +1,6 @@
 import { asn1, pki, md } from 'node-forge'
 import { GlobalMethods } from './GlobalMethods'
+import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 export class PrivateKey {
 	private ans1Object: asn1.Asn1
 	private encryptedPrivateKeyValidator = {
@@ -88,7 +89,7 @@ export class PrivateKey {
 		const isEncrypted = asn1['validate'](this.ans1Object, this.encryptedPrivateKeyValidator, null, errors)
 		if (!isEncrypted) {
 			const message = `Llave privada no válida \n${errors.join('\n')}`
-			throw message
+			throw new ERROR_GENERAL_ERROR(message)
 		}
 	}
 

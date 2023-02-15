@@ -2,6 +2,7 @@ import { asn1, pki, md, util } from 'node-forge'
 import { x509Certificate } from './x509Certificate'
 import fetch from 'node-fetch'
 import { GlobalMethods } from './GlobalMethods'
+import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 export enum OCSP_REQUEST_STATUS {
 	SUCCESSFUL = '00',
 	MALFORMEDREQUEST = '01',
@@ -41,7 +42,7 @@ export class Ocsp {
 		this.ocspCertificate = ocspCertificate
 		const regexUrl = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/im
 		if (!regexUrl.test(urlService)) {
-			throw 'Revisar la url del servicio OCSP, el formato no es de URL'
+			throw new ERROR_GENERAL_ERROR('Revisar la url del servicio OCSP, el formato no es de URL')
 		}
 		this.urlService = urlService
 	}
@@ -95,7 +96,7 @@ export class Ocsp {
 			body: body
 		})
 		if (response.status != 200) {
-			throw 'Error al consultar el servicio ' + this.urlService
+			throw new ERROR_GENERAL_ERROR('Error al consultar el servicio ' + this.urlService)
 		}
 		const blob = await response.blob()
 		//@ts-ignore
@@ -104,7 +105,7 @@ export class Ocsp {
 
 	private dateFromANS1Date(date: string): Date {
 		if (date.indexOf('Z') == -1) {
-			throw 'Formato de fecha incorrecto, se espera YYYYMMDDHHMMSSZ'
+			throw new ERROR_GENERAL_ERROR('Formato de fecha incorrecto, se espera YYYYMMDDHHMMSSZ')
 		}
 		return new Date(date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6, 8) + 'T' + date.slice(8, 10) + ':' + date.slice(10, 12) + ':' + date.slice(12, 14) + '.000' + date.slice(14, 15))
 	}
@@ -122,8 +123,10 @@ export class Ocsp {
 			const verifiedSignature = this.ocspCertificate.rsaVerifySignature(tbsRespobseData, signature, 'sha1')
 			return verifiedSignature
 		} catch (err) {
-			if (err.message.indexOf('Encryption block is invalid') >= 0) {
-				return false
+			if (err instanceof Error) {
+				if (err.message.indexOf('Encryption block is invalid') >= 0) {
+					return false
+				}
 			}
 			throw err
 		}
@@ -176,10 +179,10 @@ export class Ocsp {
 					ocspResponseBinary
 				}
 			} else {
-				throw 'La firma de la respuesta OCSP no corresponde'
+				throw new ERROR_GENERAL_ERROR('La firma de la respuesta OCSP no corresponde')
 			}
 		} else {
-			throw 'No fue posible realizar la validación OCSP \n' + ocspResponseStatus
+			throw new ERROR_GENERAL_ERROR('No fue posible realizar la validación OCSP \n' + ocspResponseStatus)
 		}
 	}
 
