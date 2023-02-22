@@ -1,6 +1,6 @@
 import { asn1, pki, md, util } from 'node-forge'
 import { x509Certificate } from './x509Certificate'
-import fetch from 'node-fetch'
+import fetch from 'cross-fetch'
 import { GlobalMethods } from './GlobalMethods'
 import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 export enum OCSP_REQUEST_STATUS {
