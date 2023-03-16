@@ -1,7 +1,7 @@
 {
   "name": "e.firma",
   "description": "Adminstración y validación de certificados y llaves de E.firma",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "engines": {
     "node": ">=16"
   },
