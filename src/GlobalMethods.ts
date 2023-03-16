@@ -1,11 +1,17 @@
 import { asn1, md } from 'node-forge'
 import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
+
 export class GlobalMethods {
 	constructor() {}
-	static hash(input: string, algorithm: string = 'sha256', returnForgeHashObject: boolean = false): any {
+	static hash(input: string, algorithm: string = 'sha256', returnForgeHashObject: boolean = false, encoding?: 'utf8' | ''): any {
 		//@ts-ignore
 		const mdObj = md[algorithm].create()
-		mdObj.update(input)
+		if (encoding) {
+			mdObj.update(input, encoding)
+		} else {
+			mdObj.update(input)
+		}
+
 		if (returnForgeHashObject) {
 			return mdObj
 		}

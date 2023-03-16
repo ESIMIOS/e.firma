@@ -101,11 +101,11 @@ export class PrivateKey {
 		return plainText
 	}
 
-	rsaSign(message: string, passwordKey: string) {
+	rsaSign(message: string, passwordKey: string, encoding?: 'utf8') {
 		const privateKeyInfo = pki.decryptPrivateKeyInfo(this.ans1Object, passwordKey)
 		const pem = pki.privateKeyInfoToPem(privateKeyInfo)
 		const privateKey = pki.privateKeyFromPem(pem)
-		const messageHash = GlobalMethods.hash(message, 'sha256', true)
+		const messageHash = GlobalMethods.hash(message, 'sha256', true, encoding)
 		const signature = privateKey.sign(messageHash)
 		return signature
 	}

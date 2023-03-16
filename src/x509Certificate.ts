@@ -74,8 +74,8 @@ export class x509Certificate {
 		return encrypted
 	}
 
-	rsaVerifySignature(message: string, signature: string, algorithm: string = 'sha256'): boolean {
-		const messageHash = GlobalMethods.hash(message, algorithm, true)
+	rsaVerifySignature(message: string, signature: string, algorithm: string = 'sha256', encoding?: 'utf8'): boolean {
+		const messageHash = GlobalMethods.hash(message, algorithm, true, encoding)
 		const messageDigest = messageHash.digest().bytes()
 		// @ts-ignore
 		const verified = this.certificate.publicKey['verify'](messageDigest, signature)
