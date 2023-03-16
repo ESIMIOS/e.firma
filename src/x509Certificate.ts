@@ -1,6 +1,6 @@
 import { asn1, pki } from 'node-forge'
 import { GlobalMethods } from './GlobalMethods'
-
+import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 export class x509Certificate {
 	ans1Object: asn1.Asn1
 	certificate: pki.Certificate
@@ -35,7 +35,7 @@ export class x509Certificate {
 			const certificate = pki.certificateFromAsn1(ans1Object)
 			return certificate
 		} catch (err) {
-			throw 'Verifique el archivo, no fue posible convertir el ANS1 a certificado'
+			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible convertir el ANS1 a certificado')
 		}
 	}
 
@@ -61,7 +61,7 @@ export class x509Certificate {
 		} catch (err) {
 			if (err instanceof Error) {
 				if (err.message.toString().indexOf('The parent certificate did not issue') >= 0) {
-					throw 'El certificado del issuer recibido no es el de este certificado'
+					throw new ERROR_GENERAL_ERROR('El certificado del issuer recibido no es el de este certificado')
 				}
 			}
 			throw err

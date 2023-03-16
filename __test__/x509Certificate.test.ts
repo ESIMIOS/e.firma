@@ -75,7 +75,7 @@ describe('x509Certificate Test', () => {
 		try {
 			ipnCertiticate.verifyIntegrity(fileIssuer4)
 		} catch (err) {
-			expect(err).toBe('El certificado del issuer recibido no es el de este certificado')
+			expect(err.message).toBe('El certificado del issuer recibido no es el de este certificado')
 		}
 	})
 

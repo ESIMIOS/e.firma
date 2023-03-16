@@ -14,7 +14,7 @@ describe('privateKey Test', () => {
 			new PrivateKey(file)
 		} catch (err) {
 			console.log(err)
-			expect(err).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
+			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
 		}
 	})
 
@@ -25,7 +25,7 @@ describe('privateKey Test', () => {
 			new PrivateKey(file)
 		} catch (err) {
 			console.log(err)
-			expect(err.indexOf('Llave privada no válida ') <= 0).toBe(true)
+			expect(err.message.indexOf('Llave privada no válida ') <= 0).toBe(true)
 		}
 	})
 })

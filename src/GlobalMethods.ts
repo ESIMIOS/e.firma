@@ -4,7 +4,7 @@ export class GlobalMethods {
 	constructor() {}
 	static hash(input: string, algorithm: string = 'sha256', returnForgeHashObject: boolean = false): any {
 		//@ts-ignore
-		var mdObj = md[algorithm].create()
+		const mdObj = md[algorithm].create()
 		mdObj.update(input)
 		if (returnForgeHashObject) {
 			return mdObj
