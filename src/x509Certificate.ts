@@ -81,4 +81,7 @@ export class x509Certificate {
 		const verified = this.certificate.publicKey['verify'](messageDigest, signature)
 		return verified
 	}
+	getPEM() {
+		return pki.certificateToPem(this.certificate)
+	}
 }
