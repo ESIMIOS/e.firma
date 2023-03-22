@@ -1,4 +1,4 @@
-import { asn1, pki, md } from 'node-forge'
+import { asn1, pki, util } from 'node-forge'
 import { GlobalMethods } from './GlobalMethods'
 import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 export class PrivateKey {

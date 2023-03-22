@@ -1,4 +1,4 @@
-import { asn1, md } from 'node-forge'
+import { asn1, md, util } from 'node-forge'
 import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
 
 export class GlobalMethods {
@@ -24,5 +24,11 @@ export class GlobalMethods {
 		} catch (err) {
 			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible decodificar el ANS1')
 		}
+	}
+	static binaryToBase64(binary: string) {
+		return util.encode64(binary)
+	}
+	static base64ToBinary(base64String: string) {
+		return util.decode64(base64String)
 	}
 }
