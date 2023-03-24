@@ -1,5 +1,8 @@
 {
 	"compilerOptions": {
+		"declaration": true,
+		"strict": true,
+		"strictNullChecks": false,
 		"esModuleInterop": true,
 		"outDir": "./lib",
 		"sourceMap": true,
@@ -8,13 +11,9 @@
 		"preserveConstEnums": true,
 		"module": "commonjs",
 		"target": "ES2015",
-		"jsx": "react",
 		"allowJs": true,
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"declarationMap": true,
 		"typeRoots": ["./node_modules/@types"]
 	},
-	"include": ["./src/**/*", "./index.ts"],
+	"include": ["./src/**/*"],
 	"exclude": ["node_modules", "./__tests__/**/*", "./__mocks__/**/*", "./__coverage__/**/*"]
 }

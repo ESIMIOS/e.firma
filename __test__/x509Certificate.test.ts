@@ -14,6 +14,7 @@ describe('x509Certificate Test', () => {
 		try {
 			new x509Certificate(file)
 		} catch (err) {
+			//@ts-ignore
 			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
 		}
 	})
@@ -75,6 +76,7 @@ describe('x509Certificate Test', () => {
 		try {
 			ipnCertiticate.verifyIntegrity(fileIssuer4)
 		} catch (err) {
+			//@ts-ignore
 			expect(err.message).toBe('El certificado del issuer recibido no es el de este certificado')
 		}
 	})
