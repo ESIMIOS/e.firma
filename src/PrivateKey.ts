@@ -106,6 +106,7 @@ export class PrivateKey {
 		const pem = pki.privateKeyInfoToPem(privateKeyInfo)
 		const privateKey = pki.privateKeyFromPem(pem)
 		const messageHash = GlobalMethods.hash(message, 'sha256', true, encoding)
+		console.log('mnessageHash', messageHash)
 		const signature = privateKey.sign(messageHash)
 		return signature
 	}

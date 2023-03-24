@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
 		"esModuleInterop": true,
-		"outDir": "./dist/",
+		"outDir": "./lib",
 		"sourceMap": true,
 		"noImplicitAny": true,
 		"removeComments": true,
 		"preserveConstEnums": true,
 		"module": "commonjs",
-		"target": "es5",
+		"target": "ES2015",
 		"jsx": "react",
 		"allowJs": true,
 		"declaration": true,
@@ -15,5 +15,6 @@
 		"declarationMap": true,
 		"typeRoots": ["./node_modules/@types"]
 	},
-	"include": ["./src/**/*", "./index.ts"]
+	"include": ["./src/**/*", "./index.ts"],
+	"exclude": ["node_modules", "./__tests__/**/*", "./__mocks__/**/*", "./__coverage__/**/*"]
 }

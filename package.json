@@ -2,6 +2,37 @@
 	"name": "e.firma",
 	"description": "Adminstración y validación de certificados y llaves de E.firma",
 	"version": "0.1.1",
+	"main": "/lib/index.js",
+	"files": [
+		"lib/**/*"
+	],
+	"types": "lib/index.d.ts",
+	"scripts": {
+		"test": "jest",
+		"make-diagram": "npx tsuml2 --glob \"./src/*.ts\"  ",
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"lint": "tslint -p tsconfig.json",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm test && npm run lint",
+		"preversion": "npm run lint",
+		"version": "npm run format && git add -A src",
+		"postversion": "git push && git push --tags"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ESIMIOS/e.firma.git"
+	},
+	"keywords": [
+		"e.firma",
+		"x509",
+		"RSA"
+	],
+	"author": "ESIMIOS",
+	"bugs": {
+		"url": "https://github.com/ESIMIOS/e.firma/issues"
+	},
+	"homepage": "https://github.com/ESIMIOS/e.firma#readme",
 	"engines": {
 		"node": ">=16"
 	},
@@ -17,9 +48,5 @@
 		"ts-node": "^10.9.1",
 		"tsuml2": "^0.7.0",
 		"typescript": "^4.9.4"
-	},
-	"scripts": {
-		"test": "jest",
-		"make-diagram": "npx tsuml2 --glob \"./src/*.ts\"  "
 	}
 }
