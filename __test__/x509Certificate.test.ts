@@ -27,6 +27,7 @@ describe('x509Certificate Test', () => {
 	test('EFIRMA certificate', () => {
 		expect(goodCertiticate.certificateType).toBe('EFIRMA')
 	})
+
 	test('is expired', () => {
 		const expired509Certificate = readCertificate('__data_test__/expiredCertificate.cer')
 		expect(expired509Certificate.valid).toBe(false)
@@ -69,6 +70,12 @@ describe('x509Certificate Test', () => {
 	test('verify valid Integrity', () => {
 		const fileIssuer5 = fs.readFileSync(`${__dirname}/__data_test__/AC5_SAT.cer`, 'binary')
 		expect(ipnCertiticate.verifyIntegrity(fileIssuer5)).toBe(true)
+	})
+
+	test('Subject Type', () => {
+		expect(ipnCertiticate.subjectType).toBe('MORAL')
+		const goodCertiticate = readCertificate('__data_test__/goodCertificate.cer')
+		expect(goodCertiticate.subjectType).toBe('FISICA')
 	})
 
 	test('verify Integrity for incorrect issuer', () => {

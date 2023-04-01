@@ -1,14 +1,20 @@
 import { asn1, pki } from 'node-forge'
 import { GlobalMethods } from './GlobalMethods'
 import ERROR_GENERAL_ERROR from './errors/ERROR_GENERAL_ERROR'
+
+interface x509Subject {
+	attributes: pki.CertificateField[]
+	hash: unknown
+}
 export class x509Certificate {
 	ans1Object: asn1.Asn1
 	certificate: pki.Certificate
-	certificateType: string
+	certificateType: 'UNKNOW' | 'CSD' | 'EFIRMA'
 	serialNumber: string
 	acVersion: number
 	valid: boolean
 	sha256: string
+	subjectType: 'UNKNOW' | 'MORAL' | 'FISICA'
 
 	constructor(x509Binary: string) {
 		this.ans1Object = GlobalMethods.readASN1(x509Binary)
@@ -18,12 +24,28 @@ export class x509Certificate {
 		this.certificate = certificate
 		this.certificateType = this.getCertiticateType()
 		this.sha256 = GlobalMethods.hash(x509Binary, 'sha256')
+		this.subjectType = this.getSubjectType()
 		const now = new Date()
 		if (now < certificate.validity.notAfter && now > certificate.validity.notBefore) {
 			this.valid = true
 		} else {
 			this.valid = false
 		}
+	}
+
+	public static getSubjectField(subject: x509Subject, type: string, valueToFind: string): string | Array<string> {
+		let value: string | Array<string>
+		if (subject && subject.attributes && Array.isArray(subject.attributes)) {
+			//@ts-ignore
+			const findResult = subject.attributes.find((field) => field[type] === valueToFind)
+			if (findResult.value) {
+				value = findResult.value
+			}
+		}
+		if (!value) {
+			throw new ERROR_GENERAL_ERROR(`${valueToFind} no encontrado en el tipo ${type}`)
+		}
+		return value
 	}
 
 	getBinary() {
@@ -49,6 +71,21 @@ export class x509Certificate {
 				return 'CSD'
 			}
 		}
+		return 'UNKNOW'
+	}
+
+	getSubjectType() {
+		try {
+			const subjectRfc = x509Certificate.getSubjectField(this.certificate.subject, 'type', '2.5.4.45')
+			if (subjectRfc.indexOf(' / ') >= 0) {
+				return 'MORAL'
+			} else if (subjectRfc.length === 13) {
+				return 'FISICA'
+			}
+		} catch (err) {
+			console.warn(err)
+		}
+
 		return 'UNKNOW'
 	}
 

@@ -2,11 +2,7 @@ import { Ocsp } from '../src/Ocsp'
 import { asn1 } from 'node-forge'
 import { x509Certificate } from '../src/x509Certificate'
 import * as fs from 'fs'
-const readFile = (fileDir: string) => {
-	const pathInvalidCertificate = `${__dirname}/${fileDir}`
-	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
-	return file
-}
+
 const readCertificate = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
