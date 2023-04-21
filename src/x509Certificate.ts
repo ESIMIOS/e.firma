@@ -98,7 +98,7 @@ export class x509Certificate {
 		} catch (err) {
 			if (err instanceof Error) {
 				if (err.message.toString().indexOf('The parent certificate did not issue') >= 0) {
-					throw new ERROR_GENERAL_ERROR('El certificado del issuer recibido no es el de este certificado')
+					throw new ERROR_GENERAL_ERROR('El certificado recibido no fue emitido por el emisor, verifique que el emisor sea el correcto y que el certificado no este alterado')
 				}
 			}
 			throw err

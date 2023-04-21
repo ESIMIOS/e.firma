@@ -1,7 +1,7 @@
 {
 	"name": "e.firma",
 	"description": "Adminstración y validación de certificados y llaves de E.firma",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"main": "/lib/index.js",
 	"files": [
 		"lib/**/*"
