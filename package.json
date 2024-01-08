@@ -3,9 +3,6 @@
 	"description": "Adminstración y validación de certificados y llaves de E.firma",
 	"version": "0.1.7",
 	"main": "lib/index.js",
-	"files": [
-		"lib/**/*"
-	],
 	"types": "lib/index.d.ts",
 	"scripts": {
 		"test": "jest",
