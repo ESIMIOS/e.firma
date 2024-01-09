@@ -52,13 +52,13 @@ export class Ocsp {
 		const hashIssuerNameBinary = GlobalMethods.hash(issuerNameBinary, 'sha1')
 		const issuerNameHash = Buffer.from(hashIssuerNameBinary, 'hex').toString('binary')
 
-		const publicKeyFromANS1 = this.getASN1PublicKeyBinary()
-		const hashPublicKeyFromANS1 = GlobalMethods.hash(publicKeyFromANS1, 'sha1')
-		const issuerKeyHash = Buffer.from(hashPublicKeyFromANS1, 'hex').toString('binary')
+		const publicKeyFromASN1 = this.getASN1PublicKeyBinary()
+		const hashPublicKeyFromASN1 = GlobalMethods.hash(publicKeyFromASN1, 'sha1')
+		const issuerKeyHash = Buffer.from(hashPublicKeyFromASN1, 'hex').toString('binary')
 
 		const serialNumber = Buffer.from(this.subjectCertificate.serialNumber, 'hex').toString('binary')
 
-		const ans1OCSPRequest = asn1.create(asn1.Class.UNIVERSAL, asn1.Type.SEQUENCE, true, [
+		const asn1OCSPRequest = asn1.create(asn1.Class.UNIVERSAL, asn1.Type.SEQUENCE, true, [
 			asn1.create(asn1.Class.UNIVERSAL, asn1.Type.SEQUENCE, true, [
 				asn1.create(asn1.Class.UNIVERSAL, asn1.Type.SEQUENCE, true, [
 					asn1.create(asn1.Class.UNIVERSAL, asn1.Type.SEQUENCE, true, [
@@ -81,7 +81,7 @@ export class Ocsp {
 				])
 			])
 		])
-		const ocspRequestDer = asn1.toDer(ans1OCSPRequest)
+		const ocspRequestDer = asn1.toDer(asn1OCSPRequest)
 		//@ts-ignore
 		return ocspRequestDer
 	}
@@ -103,7 +103,7 @@ export class Ocsp {
 		return blob
 	}
 
-	private dateFromANS1Date(date: string): Date {
+	private dateFromASN1Date(date: string): Date {
 		if (date.indexOf('Z') == -1) {
 			throw new ERROR_GENERAL_ERROR('Formato de fecha incorrecto, se espera YYYYMMDDHHMMSSZ')
 		}
@@ -150,7 +150,7 @@ export class Ocsp {
 		if (certificateStatus.type === OCSP_CERTIFICATE_STATUS.GOOD) {
 			return { status: 'GOOD' }
 		} else if (certificateStatus.type === OCSP_CERTIFICATE_STATUS.REVOKED) {
-			const revocationTime = this.dateFromANS1Date(certificateStatus.value[0].value)
+			const revocationTime = this.dateFromASN1Date(certificateStatus.value[0].value)
 			return { status: 'REVOKED', revocationTime }
 		} else if (certificateStatus.type === OCSP_CERTIFICATE_STATUS.UNKNOW) {
 			return { status: 'UNKNOW' }
@@ -204,7 +204,7 @@ export class Ocsp {
 	}
 
 	private getASN1PublicKeyBinary(): string {
-		const asn1IssuerCert = this.issuerCertificate.ans1Object
+		const asn1IssuerCert = this.issuerCertificate.asn1Object
 		//@ts-ignore
 		const publicKeyAsn1Node = asn1IssuerCert.value[0].value[6].value[1].bitStringContents
 		const ocspIssuerPublicKey = publicKeyAsn1Node.slice(1, publicKeyAsn1Node.length)

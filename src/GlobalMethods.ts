@@ -19,10 +19,10 @@ export class GlobalMethods {
 	}
 	static readASN1(file: string) {
 		try {
-			const ans1Object = asn1.fromDer(file)
-			return ans1Object
+			const asn1Object = asn1.fromDer(file)
+			return asn1Object
 		} catch (err) {
-			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible decodificar el ANS1')
+			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible decodificar el ASN1')
 		}
 	}
 	static binaryToBase64(binary: string) {

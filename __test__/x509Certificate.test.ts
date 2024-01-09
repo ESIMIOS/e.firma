@@ -1,6 +1,7 @@
 import { x509Certificate } from '../src/x509Certificate'
 import { PrivateKey } from '../src/PrivateKey'
 import * as fs from 'fs'
+import ERROR_GENERAL_ERROR from '../src/errors/ERROR_GENERAL_ERROR'
 const readCertificate = (fileDir: string) => {
 	const pathInvalidCertificate = `${__dirname}/${fileDir}`
 	const file = fs.readFileSync(pathInvalidCertificate, 'binary')
@@ -15,7 +16,7 @@ describe('x509Certificate Test', () => {
 			new x509Certificate(file)
 		} catch (err) {
 			//@ts-ignore
-			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
+			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ASN1')
 		}
 	})
 	test('CSD certificate', () => {
@@ -36,10 +37,10 @@ describe('x509Certificate Test', () => {
 		expect(goodCertiticate.valid).toBe(true)
 	})
 	test('get acVersion 4', () => {
-		expect(goodCertiticate.acVersion).toBe(4)
+		expect(goodCertiticate.acVersion).toBe(5)
 	})
 	test('get serialNumber', () => {
-		expect(goodCertiticate.serialNumber).toBe('3330303031303030303030343030303032333030')
+		expect(goodCertiticate.serialNumber).toBe('3330303031303030303030353030303033323832')
 	})
 	test('encrypted message', () => {
 		const message = 'Hola Mundo!'
@@ -83,8 +84,8 @@ describe('x509Certificate Test', () => {
 		try {
 			ipnCertiticate.verifyIntegrity(fileIssuer4)
 		} catch (err) {
-			//@ts-ignore
-			expect(err.message).toBe('El certificado del issuer recibido no es el de este certificado')
+			const error = err as ERROR_GENERAL_ERROR
+			expect(error.message).toBe('El certificado recibido no fue emitido por el emisor, verifique que el emisor sea el correcto y que el certificado no este alterado')
 		}
 	})
 

@@ -15,7 +15,7 @@ describe('privateKey Test', () => {
 		} catch (err) {
 			console.log(err)
 			//@ts-ignore
-			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ANS1')
+			expect(err.message).toBe('Verifique el archivo, no fue posible decodificar el ASN1')
 		}
 	})
 

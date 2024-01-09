@@ -21,8 +21,7 @@ export const ERROR_LEVELS = Object.freeze({
  * TRACE    A log level describing events showing step by step execution of your code that can be ignored during the standard operation, but may be useful during extended debugging sessions.
  */
 
-export interface CustomError {
-	message: string
+export interface CustomError extends Error {
 	category: ERROR_CATEGORY
 	level: ERROR_LEVEL
 	error: string
@@ -36,8 +35,6 @@ export function isCustomError(object: unknown): object is CustomError {
 }
 
 export function ErrorHandler(e: Error | CustomError) {
-	console.error(e.message)
-
 	if (isCustomError(e)) {
 		console.log('Custom error:', e.error)
 		if (e.callback) {
@@ -52,3 +49,4 @@ export function ErrorHandler(e: Error | CustomError) {
 		console.error('On ErrorHandler:', e)
 	}
 }
+

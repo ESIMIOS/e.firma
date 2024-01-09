@@ -3,13 +3,13 @@
 #.enumeration: fill=lightgreen
 #.type: fill=lightgray
 [GlobalMethods||+static hash(): any;+static readASN1(): asn1.Asn1]
-[Ocsp|-issuerCertificate: x509Certificate;-subjectCertificate: x509Certificate;-ocspCertificate: x509Certificate;-urlService: string|-getOCSPRequest(): util.ByteStringBuffer;+callToService(): Promise&lt;Blob&gt;;-dateFromANS1Date(): Date;+verifyOcspResponseSignature(): boolean;+verifyOcspResponse(): ocspResponseVerify;+verifyCertificateStatus(): certificateStatusVerify;+verify(): Promise&lt;Object&gt;;-getIssuerNameBinary(): string;-getASN1PublicKeyBinary(): string]
+[Ocsp|-issuerCertificate: x509Certificate;-subjectCertificate: x509Certificate;-ocspCertificate: x509Certificate;-urlService: string|-getOCSPRequest(): util.ByteStringBuffer;+callToService(): Promise&lt;Blob&gt;;-dateFromASN1Date(): Date;+verifyOcspResponseSignature(): boolean;+verifyOcspResponse(): ocspResponseVerify;+verifyCertificateStatus(): certificateStatusVerify;+verify(): Promise&lt;Object&gt;;-getIssuerNameBinary(): string;-getASN1PublicKeyBinary(): string]
 [&lt;enumeration&gt;OCSP_REQUEST_STATUS|SUCCESSFUL;MALFORMEDREQUEST;INTERNALERROR;TRYLATER;UNDEFINED;SIGREQUIRED;UNAUTHORIZED]
 [&lt;enumeration&gt;OCSP_CERTIFICATE_STATUS|GOOD;REVOKED;UNKNOW]
 [&lt;type&gt;ocspResponseVerify|+status: string|]
 [&lt;type&gt;certificateStatusVerify|+status: string;+revocationTime: Date|]
-[PrivateKey|-ans1Object: asn1.Asn1;-encryptedPrivateKeyValidator: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; }\[\]; })\[\]; }\[\]; })\[\]; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; })\[\]; }|+rsaDecrypt(): string;+rsaSign(): string]
-[x509Certificate|+ans1Object: asn1.Asn1;+certificate: pki.Certificate;+certificateType: string;+serialNumber: string;+acVersion: number;+valid: boolean|-certificateFromAns1(): pki.Certificate;+getCertiticateType(): &quot;EFIRMA&quot; \| &quot;CSD&quot; \| &quot;UNKNOW&quot;;+verifyIntegrity(): boolean;+rsaEncrypt(): any;+rsaVerifySignature(): boolean]</desc>
+[PrivateKey|-asn1Object: asn1.Asn1;-encryptedPrivateKeyValidator: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: ({ tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value: { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; }\[\]; })\[\]; }\[\]; })\[\]; } \| { tagClass: asn1.Class; type: asn1.Type; constructed: boolean; value?: undefined; })\[\]; }|+rsaDecrypt(): string;+rsaSign(): string]
+[x509Certificate|+asn1Object: asn1.Asn1;+certificate: pki.Certificate;+certificateType: string;+serialNumber: string;+acVersion: number;+valid: boolean|-certificateFromAsn1(): pki.Certificate;+getCertiticateType(): &quot;EFIRMA&quot; \| &quot;CSD&quot; \| &quot;UNKNOW&quot;;+verifyIntegrity(): boolean;+rsaEncrypt(): any;+rsaVerifySignature(): boolean]</desc>
 <g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
 <g transform="translate(0.5, 0.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
 <g stroke="transparent" fill="transparent">
@@ -67,7 +67,7 @@
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Ocsp">
 <text x="0.0" y="13.5" stroke="none" data-name="Ocsp">-getOCSPRequest(): util.ByteStringBuffer</text>
 <text x="0.0" y="28.5" stroke="none" data-name="Ocsp">+callToService(): Promise&lt;Blob&gt;</text>
-<text x="0.0" y="43.5" stroke="none" data-name="Ocsp">-dateFromANS1Date(): Date</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Ocsp">-dateFromASN1Date(): Date</text>
 <text x="0.0" y="58.5" stroke="none" data-name="Ocsp">+verifyOcspResponseSignature(): boolean</text>
 <text x="0.0" y="73.5" stroke="none" data-name="Ocsp">+verifyOcspResponse(): ocspResponseVerify</text>
 <text x="0.0" y="88.5" stroke="none" data-name="Ocsp">+verifyCertificateStatus(): certificateStatusVerify</text>
@@ -141,7 +141,7 @@
 </g>
 <g transform="translate(1185, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PrivateKey">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="PrivateKey">
-<text x="0.0" y="13.5" stroke="none" data-name="PrivateKey">-ans1Object: asn1.Asn1</text>
+<text x="0.0" y="13.5" stroke="none" data-name="PrivateKey">-asn1Object: asn1.Asn1</text>
 <text x="0.0" y="28.5" stroke="none" data-name="PrivateKey">-encryptedPrivateKeyValidator: { tagClass: asn1.Class</text>
 <text x="0.0" y="43.5" stroke="none" data-name="PrivateKey">type: asn1.Type</text>
 <text x="0.0" y="58.5" stroke="none" data-name="PrivateKey">constructed: boolean</text>
@@ -203,7 +203,7 @@
 </g>
 <g transform="translate(1669, 241)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="x509Certificate">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="x509Certificate">
-<text x="0.0" y="13.5" stroke="none" data-name="x509Certificate">+ans1Object: asn1.Asn1</text>
+<text x="0.0" y="13.5" stroke="none" data-name="x509Certificate">+asn1Object: asn1.Asn1</text>
 <text x="0.0" y="28.5" stroke="none" data-name="x509Certificate">+certificate: pki.Certificate</text>
 <text x="0.0" y="43.5" stroke="none" data-name="x509Certificate">+certificateType: string</text>
 <text x="0.0" y="58.5" stroke="none" data-name="x509Certificate">+serialNumber: string</text>
@@ -214,7 +214,7 @@
 </g>
 <g transform="translate(1669, 347)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="x509Certificate">
 <g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="x509Certificate">
-<text x="0.0" y="13.5" stroke="none" data-name="x509Certificate">-certificateFromAns1(): pki.Certificate</text>
+<text x="0.0" y="13.5" stroke="none" data-name="x509Certificate">-certificateFromAsn1(): pki.Certificate</text>
 <text x="0.0" y="28.5" stroke="none" data-name="x509Certificate">+getCertiticateType(): &quot;EFIRMA&quot; | &quot;CSD&quot; | &quot;UNKNOW&quot;</text>
 <text x="0.0" y="43.5" stroke="none" data-name="x509Certificate">+verifyIntegrity(): boolean</text>
 <text x="0.0" y="58.5" stroke="none" data-name="x509Certificate">+rsaEncrypt(): any</text>

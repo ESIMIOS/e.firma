@@ -7,7 +7,7 @@ interface x509Subject {
 	hash: unknown
 }
 export class x509Certificate {
-	ans1Object: asn1.Asn1
+	asn1Object: asn1.Asn1
 	certificate: pki.Certificate
 	certificateType: 'UNKNOW' | 'CSD' | 'EFIRMA'
 	serialNumber: string
@@ -17,8 +17,8 @@ export class x509Certificate {
 	subjectType: 'UNKNOW' | 'MORAL' | 'FISICA'
 
 	constructor(x509Binary: string) {
-		this.ans1Object = GlobalMethods.readASN1(x509Binary)
-		const certificate = this.certificateFromAns1(this.ans1Object)
+		this.asn1Object = GlobalMethods.readASN1(x509Binary)
+		const certificate = this.certificateFromAsn1(this.asn1Object)
 		this.serialNumber = certificate.serialNumber
 		this.acVersion = Number(this.serialNumber[23])
 		this.certificate = certificate
@@ -49,15 +49,15 @@ export class x509Certificate {
 	}
 
 	getBinary() {
-		return asn1.toDer(this.ans1Object).getBytes()
+		return asn1.toDer(this.asn1Object).getBytes()
 	}
 
-	private certificateFromAns1(ans1Object: asn1.Asn1) {
+	private certificateFromAsn1(asn1Object: asn1.Asn1) {
 		try {
-			const certificate = pki.certificateFromAsn1(ans1Object)
+			const certificate = pki.certificateFromAsn1(asn1Object)
 			return certificate
 		} catch (err) {
-			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible convertir el ANS1 a certificado')
+			throw new ERROR_GENERAL_ERROR('Verifique el archivo, no fue posible convertir el ASN1 a certificado')
 		}
 	}
 
@@ -91,7 +91,7 @@ export class x509Certificate {
 
 	verifyIntegrity(x509IssuerBinary: string) {
 		const issuerCertificate = GlobalMethods.readASN1(x509IssuerBinary)
-		const certificate = this.certificateFromAns1(issuerCertificate)
+		const certificate = this.certificateFromAsn1(issuerCertificate)
 		try {
 			const isValid = certificate.verify(this.certificate)
 			return isValid

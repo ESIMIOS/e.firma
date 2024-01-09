@@ -1,7 +1,9 @@
 {
 	"name": "e.firma",
+	"version": "0.1.9",
+	"author": "MrCalamitus <calamitus@hotmail.es>",
 	"description": "Adminstración y validación de certificados y llaves de E.firma",
-	"version": "0.1.8",
+
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
@@ -25,7 +27,6 @@
 		"x509",
 		"RSA"
 	],
-	"author": "ESIMIOS",
 	"bugs": {
 		"url": "https://github.com/ESIMIOS/e.firma/issues"
 	},
