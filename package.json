@@ -1,9 +1,8 @@
 {
 	"name": "e.firma",
-	"version": "0.1.9",
+	"version": "1.0.0",
 	"author": "MrCalamitus <calamitus@hotmail.es>",
-	"description": "Adminstración y validación de certificados y llaves de E.firma",
-
+	"description": "Adminstración y validación de certificados x509 con verificaciones OCSP",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {

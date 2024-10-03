@@ -1,6 +1,7 @@
 testDevelopment/
 .history/
 node_modules/
+package-lock.json
 .DS_Store
 dist/
 __test__/coverage
