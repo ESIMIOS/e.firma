@@ -1,5 +1,5 @@
-export type ERROR_CATEGORY = 'GENERAL' | 'AUTHORIZATION' | 'ROUTES';
-export type ERROR_LEVEL = 'FATAL' | 'ERROR' | 'WARN' | 'INFO' | 'DEBUG' | 'TRACE';
+export type ERROR_CATEGORY = "GENERAL" | "AUTHORIZATION" | "ROUTES";
+export type ERROR_LEVEL = "FATAL" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "TRACE";
 export declare const ERROR_LEVELS: Readonly<{
     FATAL: 0;
     ERROR: 1;

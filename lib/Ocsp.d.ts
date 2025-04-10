@@ -1,5 +1,5 @@
-import { asn1 } from 'node-forge';
-import { x509Certificate } from './x509Certificate';
+import { asn1 } from "node-forge";
+import { x509Certificate } from "./x509Certificate";
 export declare enum OCSP_REQUEST_STATUS {
     SUCCESSFUL = "00",
     MALFORMEDREQUEST = "01",
@@ -24,11 +24,14 @@ export interface verifyResponse extends certificateStatusVerify {
     ocspRequestBinary?: string;
     ocspResponseBinary?: string;
 }
+export interface Asn1Efirma extends asn1.Asn1 {
+    value: any[];
+}
 export declare class Ocsp {
-    private issuerCertificate;
-    private subjectCertificate;
-    private ocspCertificate;
-    private urlService;
+    private readonly issuerCertificate;
+    private readonly subjectCertificate;
+    private readonly ocspCertificate;
+    private readonly urlService;
     constructor(urlService: string, issuerCertificate: x509Certificate, subjectCertificate: x509Certificate, ocspCertificate: x509Certificate);
     private getOCSPRequest;
     callToService(body: Buffer): Promise<Blob>;

@@ -91,7 +91,7 @@ export class PrivateKey {
       this.asn1Object,
       this.encryptedPrivateKeyValidator,
       null,
-      errors
+      errors,
     );
     if (!isEncrypted) {
       const message = `Llave privada no válida \n${errors.join("\n")}`;
@@ -102,7 +102,7 @@ export class PrivateKey {
   rsaDecrypt(encryptedText: string, passwordKey: string) {
     const privateKeyInfo = pki.decryptPrivateKeyInfo(
       this.asn1Object,
-      passwordKey
+      passwordKey,
     );
     const pem = pki.privateKeyInfoToPem(privateKeyInfo);
     const privateKey = pki.privateKeyFromPem(pem);
@@ -113,7 +113,7 @@ export class PrivateKey {
   rsaSign(message: string, passwordKey: string, encoding?: "utf8") {
     const privateKeyInfo = pki.decryptPrivateKeyInfo(
       this.asn1Object,
-      passwordKey
+      passwordKey,
     );
     const pem = pki.privateKeyInfoToPem(privateKeyInfo);
     const privateKey = pki.privateKeyFromPem(pem);

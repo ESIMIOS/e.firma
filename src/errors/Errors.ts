@@ -1,15 +1,21 @@
-export type ERROR_CATEGORY = 'GENERAL' | 'AUTHORIZATION' | 'ROUTES'
+export type ERROR_CATEGORY = "GENERAL" | "AUTHORIZATION" | "ROUTES";
 
-export type ERROR_LEVEL = 'FATAL' | 'ERROR' | 'WARN' | 'INFO' | 'DEBUG' | 'TRACE'
+export type ERROR_LEVEL =
+  | "FATAL"
+  | "ERROR"
+  | "WARN"
+  | "INFO"
+  | "DEBUG"
+  | "TRACE";
 
 export const ERROR_LEVELS = Object.freeze({
-	FATAL: 0,
-	ERROR: 1,
-	WARN: 2,
-	INFO: 3,
-	DEBUG: 4,
-	TRACE: 5
-})
+  FATAL: 0,
+  ERROR: 1,
+  WARN: 2,
+  INFO: 3,
+  DEBUG: 4,
+  TRACE: 5,
+});
 
 /**
  * Syslog standar
@@ -22,31 +28,35 @@ export const ERROR_LEVELS = Object.freeze({
  */
 
 export interface CustomError extends Error {
-	category: ERROR_CATEGORY
-	level: ERROR_LEVEL
-	error: string
-	data?: unknown
-	callback?(): void
+  category: ERROR_CATEGORY;
+  level: ERROR_LEVEL;
+  error: string;
+  data?: unknown;
+  callback?(): void;
 }
 //Definir errores organizados por categoría
 
 export function isCustomError(object: unknown): object is CustomError {
-	return Object.prototype.hasOwnProperty.call(object, 'category') && Object.prototype.hasOwnProperty.call(object, 'level') && Object.prototype.hasOwnProperty.call(object, 'error') && Object.prototype.hasOwnProperty.call(object, 'data')
+  return (
+    Object.prototype.hasOwnProperty.call(object, "category") &&
+    Object.prototype.hasOwnProperty.call(object, "level") &&
+    Object.prototype.hasOwnProperty.call(object, "error") &&
+    Object.prototype.hasOwnProperty.call(object, "data")
+  );
 }
 
 export function ErrorHandler(e: Error | CustomError) {
-	if (isCustomError(e)) {
-		console.log('Custom error:', e.error)
-		if (e.callback) {
-			e.callback()
-		} else {
-			console.log('category:', e.category)
-			console.log('error:', e.error)
-			console.log('level:', e.level)
-			console.log('data:', e.data)
-		}
-	} else {
-		console.error('On ErrorHandler:', e)
-	}
+  if (isCustomError(e)) {
+    console.log("Custom error:", e.error);
+    if (e.callback) {
+      e.callback();
+    } else {
+      console.log("category:", e.category);
+      console.log("error:", e.error);
+      console.log("level:", e.level);
+      console.log("data:", e.data);
+    }
+  } else {
+    console.error("On ErrorHandler:", e);
+  }
 }
-
