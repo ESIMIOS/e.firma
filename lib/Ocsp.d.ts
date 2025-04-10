@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { asn1 } from 'node-forge';
 import { x509Certificate } from './x509Certificate';
 export declare enum OCSP_REQUEST_STATUS {
