@@ -1,4 +1,4 @@
-import { ERROR_CATEGORY, ERROR_LEVEL, CustomError } from './Errors'
+import { ERROR_CATEGORY, ERROR_LEVEL } from './Errors'
 
 export default class ERROR_GENERAL_ERROR extends Error {
 	category = 'GENERAL' as ERROR_CATEGORY
